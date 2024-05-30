@@ -1,0 +1,10 @@
+$(if http-header == "Access-Control-Allow-Origin")*$(endif){
+    "captive": $(if logged-in == 'yes')false$(else)true$(endif),
+    "user-portal-url": "$(link-login)",
+    "mac": "$(mac)",
+    $(if logged-in == 'yes')"venue-info-url": "https://konekyu.id/pop?id=352",
+    "seconds-remaining": $(session-timeout-secs),
+    "can-extend-session": true,
+    "username" : "$(username)",$(endif)
+    "pop-id": "352"
+}
