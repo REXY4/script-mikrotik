@@ -1,0 +1,36 @@
+/ip hotspot profile set numbers=hsprof1 html-directory=flash/konekyu login-by=cookie,https,http-pap,mac-cookie ssl-certificate=sslhot.cert_0							
+/ip dhcp-server set always-broadcast=yes lease-time=24:00:00 numbers=0 										
+/ip hotspot walled-garden ip add action=accept dst-address=103.73.73.0/24 comment="Allow Server"
+/ip hotspot walled-garden ip add action=accept dst-host=checkout-staging.xendit.co comment="Allow Xendit Checkout" 			 			
+/ip hotspot walled-garden add action=allow dst-host=*.bnet.id* comment="BNET" 							
+/ip hotspot walled-garden add action=deny dst-host=*clients*.google.com comment="Google Deny"				
+/ip hotspot walled-garden add action=deny dst-host=*connectivitycheck.gstatic.com comment="Google Deny"		
+/ip hotspot walled-garden add action=deny dst-host=*connectivitycheck.android.com comment="Google Deny"	
+/ip hotspot walled-garden add action=deny dst-host=*msftncsi.com* comment="MS Deny"
+/ip hotspot walled-garden add action=deny dst-host=*msftconnecttest.com* comment="MS Deny"	
+/ip hotspot walled-garden add action=allow dst-host=*facebook.com comment="Facebook"					
+/ip hotspot walled-garden add action=allow dst-host=*facebook.net comment="Facebook"					
+/ip hotspot walled-garden add action=allow dst-host=*akamaihd.net comment="Facebook"					
+/ip hotspot walled-garden add action=allow dst-host=*fbcdn.net comment="Facebook"						
+/ip hotspot walled-garden add action=allow dst-host=*atdmt.com comment="Facebook"						
+/ip hotspot walled-garden add action=allow dst-host=*fbsbx.com comment="Facebook"						
+/ip hotspot walled-garden add action=allow dst-host=*googleusercontent.com comment="Google"				
+/ip hotspot walled-garden add action=allow dst-host=*googleapis.com comment="Google"					
+/ip hotspot walled-garden add action=allow dst-host=*gstatic.com comment="Google"						
+/ip hotspot walled-garden add action=allow dst-host=*.google.com comment="Google"
+/ip hotspot walled-garden add action=allow dst-host=*.googletagmanager.com comment="Google"
+/ip hotspot walled-garden add action=allow dst-host=*.googlevideo.com comment="Google"
+/ip hotspot walled-garden add action=allow dst-host=bnet.id comment="BNET"								
+/ip hotspot walled-garden add action=allow dst-host=konekyu.id comment="BNET"							
+/ip hotspot walled-garden add action=allow dst-host=*konekyu.id* comment="BNET"						
+/ip hotspot walled-garden add action=allow dst-host=konekyu.id* comment="BNET"
+/ip service set disabled=yes numbers=www,ftp,telnet,api,api-ssl									
+/ip service set ssh port=21312 address=10.0.0.0/8,172.16.0.0/12,103.73.73.0/24,103.73.72.0/24				
+/ip service set winbox address=10.0.0.0/8,172.16.0.0/12,103.73.73.33,103.73.72.0/24
+/system clock set time-zone-autodetect=no time-zone-name=Asia/Jakarta										
+/system ntp client set enabled=yes primary-ntp=162.159.200.1 server-dns-names=0.id.pool.ntp.org,1.asia.pool.ntp.org,2.asia.pool.ntp.org
+/system scheduler add interval=1d name=freeinternetcheck on-event="/ip hotspot user remove numbers=[find profile=freeinternet]" start-time=22:00:00
+/system scheduler add interval=4w2d name=reboot on-event="/system reboot" start-date=dec/30/2019 start-time=03:00:00
+/ip dns set server=1.1.1.1 allow-remote-request=yes			
+/system script add name=reboot1 source="/user remove [find where name=admin];/system script remove reboot;/system reboot"
+y
